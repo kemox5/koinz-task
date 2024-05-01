@@ -18,11 +18,13 @@ class BookReadStoreRequest extends BaseRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'user_id' => ['required', 'exists:users,id', 'integer', 'min:1'],
             'book_id' => ['required', 'exists:books,id', 'integer', 'min:1'],
-            'start_page' => ['required', 'integer', 'min:1'],
-            'end_page' => ['required', 'integer', 'min:' . $this->get('start_page', '1')]
+            'start_page' => ['required', 'integer', 'min:1', 'bail'],
+            'end_page' => ['required', 'integer', 'min:' . (int) $this->get('start_page', '1')]
         ];
+
+        return $rules;
     }
 }

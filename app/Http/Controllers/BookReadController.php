@@ -4,20 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Http\Dtos\BookReadDto;
 use App\Http\Requests\BookReadStoreRequest;
-use App\Http\Services\BookReadService;
-use App\Models\BookRead;
-use Illuminate\Http\Request;
+use App\Http\Services\StoreBookReadIntervalService;
 
-class BookReadController extends Controller
+class BookReadController extends ApiController
 {
     /**
      * Insert a new interval for book reading.
      */
-    public function store(BookReadStoreRequest $request, BookReadService $bookReadService)
+    public function store(BookReadStoreRequest $request)
     {
-        $bookReadDto = new BookReadDto(...$request->all(['book_id', 'user_id', 'start_page', 'end_page']));
+        $newInterval = new BookReadDto(...$request->all(['book_id', 'user_id', 'start_page', 'end_page']));
 
-        $bookReadService = $bookReadService->store_new_interval($bookReadDto);
+        $is_success = new StoreBookReadIntervalService($newInterval);
+
+        if ($is_success) {
+
+            return $this->success(['message' => 'Book read interval created successfully.']);
+
+        } else {
+
+            return $this->error('Book read interval creation failed.');
         
+        }
+
     }
 }

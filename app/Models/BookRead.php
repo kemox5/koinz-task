@@ -9,7 +9,10 @@ class BookRead extends Model
 {
     use HasFactory;
 
-    public function book(){
+    protected $fillable = ['book_id', 'user_id', 'start_page', 'end_page', 'num_of_pages'];
+
+    public function book()
+    {
         return $this->belongsTo(Book::class);
     }
 }

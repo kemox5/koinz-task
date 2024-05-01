@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('book_reads', function (Blueprint $table) {
             $table->unsignedBigInteger('book_id');
             $table->unsignedBigInteger('user_id');
-            $table->unsignedInteger('start_page');
-            $table->unsignedInteger('end_page');
+            $table->unsignedBigInteger('start_page');
+            $table->unsignedBigInteger('end_page');
+            $table->unsignedBigInteger('num_of_pages');
+            
             $table->timestamps();
 
             $table->index('user_id');
