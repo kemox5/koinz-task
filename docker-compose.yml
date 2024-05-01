@@ -1,0 +1,74 @@
+# For more information: https://laravel.com/docs/sail
+version: '3'
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: goodreads-app:latest
+        volumes:
+            - './:/var/www'
+        networks:
+            - goodreads
+        depends_on:
+            - mysql
+
+    nginx:
+        image: nginx:latest
+        ports:
+            - "80:80"
+        volumes:
+            - './:/var/www'
+            - './docker/nginx/conf.d:/etc/nginx/conf.d'
+        networks:
+            - goodreads
+        depends_on:
+            - mysql
+            - app
+
+    mysql:
+        image: 'mysql:latest'
+        environment:
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_ROOT_HOST: "%"
+            MYSQL_DATABASE: '${DB_DATABASE}'
+            MYSQL_USER: '${DB_USERNAME}'
+            MYSQL_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_ALLOW_EMPTY_PASSWORD: 1
+        volumes:
+            - 'goodreads-mysql:/var/lib/mysql'
+        networks:
+            - goodreads
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
+            retries: 3
+            timeout: 5s
+        command: --skip-host-cache --skip-name-resolve
+      
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        links:
+            - mysql:mysql
+        ports:
+            - 8080:80
+        environment:
+            MYSQL_USERNAME: "${DB_USERNAME}"
+            MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+            PMA_HOST: mysql
+        networks:
+            - goodreads
+        depends_on:
+            - mysql
+
+    redis:
+        image: redis:latest
+        networks:
+            - goodreads
+
+networks:
+    goodreads:
+        driver: bridge
+volumes:
+    goodreads-mysql:
+        driver: local
+
