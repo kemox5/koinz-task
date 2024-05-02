@@ -1,8 +1,7 @@
 <?php
 
-use App\Http\Controllers\BookController;
-use App\Http\Controllers\BookReadController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\BookController;
+use App\Http\Controllers\Api\BookReadController;
 use Illuminate\Support\Facades\Route;
 
 /*

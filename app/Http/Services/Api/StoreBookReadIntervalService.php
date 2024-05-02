@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Services;
+namespace App\Http\Services\Api;
 
 use App\Http\Dtos\BookReadDto;
 use App\Models\Book;

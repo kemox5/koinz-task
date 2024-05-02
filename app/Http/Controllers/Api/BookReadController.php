@@ -1,12 +1,11 @@
 <?php
-
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Dtos\BookReadDto;
-use App\Http\Requests\BookReadStoreRequest;
-use App\Http\Services\StoreBookReadIntervalService;
+use App\Http\Requests\Api\BookReadStoreRequest;
+use App\Http\Services\Api\StoreBookReadIntervalService;
 
-class BookReadController extends ApiController
+class BookReadController extends ApiBaseController
 {
     /**
      * Insert a new interval for book reading.
@@ -18,6 +17,8 @@ class BookReadController extends ApiController
         $is_success = new StoreBookReadIntervalService($newInterval);
 
         if ($is_success) {
+
+            // TODO: send sms to thanks the user
 
             return $this->success(['message' => 'Book read interval created successfully.']);
 

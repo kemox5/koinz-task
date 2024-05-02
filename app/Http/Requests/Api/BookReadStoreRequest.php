@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Api;
 
 
-class BookReadStoreRequest extends BaseRequest
+class BookReadStoreRequest extends ApiBaseRequest
 {
 
     public function __construct()

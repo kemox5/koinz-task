@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Exceptions;
+namespace App\Exceptions\Api;
 
-use App\Http\Controllers\ApiController;
+use App\Http\Controllers\Api\ApiBaseController;
 use Exception;
 use Illuminate\Contracts\Validation\Validator;
 
@@ -27,7 +27,7 @@ class ApiValidationException extends Exception
      */
     public function render($request)
     {
-        return (new ApiController)->error('Validation errors', $this->validator->errors()->getMessages(), 422);
+        return (new ApiBaseController)->error('Validation errors', $this->validator->errors()->getMessages(), 422);
     }
 
 
