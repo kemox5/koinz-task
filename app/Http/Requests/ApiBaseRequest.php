@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Requests\Api;
+namespace App\Http\Requests;
 
-use App\Exceptions\Api\ApiValidationException;
+use App\Exceptions\ApiValidationException;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 

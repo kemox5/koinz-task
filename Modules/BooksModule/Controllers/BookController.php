@@ -1,7 +1,9 @@
 <?php
-namespace App\Http\Controllers\Api;
 
-use App\Models\Book;
+namespace Modules\BooksModule\Controllers;
+
+use App\Http\Controllers\ApiBaseController;
+use Modules\BooksModule\Models\Book;
 
 class BookController extends ApiBaseController
 {

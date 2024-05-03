@@ -1,20 +1,23 @@
 <?php
 
-namespace App\Http\Services\Api;
+namespace Modules\BooksModule\Services;
 
-use App\Http\Dtos\BookReadDto;
-use App\Models\Book;
-use App\Models\BookRead;
+use App\Models\User;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Modules\BooksModule\Dtos\BookReadDto;
+use Modules\BooksModule\Models\Book;
+use Modules\BooksModule\Models\BookRead;
+use Plugins\SMSGateway\SMSGatewayInterface;
 
 class StoreBookReadIntervalService
 {
-    public function __construct(private BookReadDto $newInterval)
+    private BookReadDto $newInterval;
+
+    public function __construct(private SMSGatewayInterface $smsGateway)
     {
-        return $this->store_new_interval($newInterval);
     }
 
 
@@ -27,34 +30,33 @@ class StoreBookReadIntervalService
      *      3- Delete old intervals.
      *      
      *  Then:   Insert new interval.
-     *  Finay:  Update the book's read pages total.
+     *  Finally:  Update the book's read pages total and send thank you sms.
      * 
      **/
-    private function store_new_interval(BookReadDto $newInterval): bool
+    public function execute(BookReadDto $newInterval): bool
     {
+        $this->newInterval = $newInterval;
+
         DB::beginTransaction();
 
         try {
-            
-
 
             // Get overlapping intervals with the new interval.
             $overlappingIntervals = $this->overlapping_query()->get();
-            $overlappingIntervalsPagesCount= 0;
+            $overlappingIntervalsPagesCount = 0;
 
             if ($overlappingIntervals->isNotEmpty()) {
-                
+
                 // There is overlapping intervals.
                 $newInterval = $this->merge_overlapping_intervals($overlappingIntervals, $newInterval);
                 $overlappingIntervalsPagesCount = $overlappingIntervals->sum('num_of_pages');
-                
-                $this->delete_overlapping_intervals();
             }
 
             $this->insert_new_interval($newInterval);
 
             $this->update_book_total_read_pages($newInterval, $overlappingIntervalsPagesCount);
-        
+
+            $this->send_thank_you_sms();
         } catch (Exception $e) {
 
             DB::rollBack();
@@ -70,12 +72,25 @@ class StoreBookReadIntervalService
 
 
     /** 
+     *      Send a thank you sms to the user.
+     **/
+    private function send_thank_you_sms(): bool
+    {
+        $user = User::find($this->newInterval->user_id);
+        $sms = 'Thank you for your submition!';
+        return $this->smsGateway->send($user->phone_number, $sms);
+    }
+
+
+    /** 
      *      Merge overlapping intervals with our new interval.
-    **/
+     **/
     private function merge_overlapping_intervals(Collection $overlappingIntervals, BookReadDto $bookReadDto): BookReadDto
     {
         $start_page = min($overlappingIntervals->min('start_page'), $bookReadDto->start_page);
         $end_page = max($overlappingIntervals->max('end_page'), $bookReadDto->end_page);
+
+        $this->delete_overlapping_intervals();
 
         return new BookReadDto($bookReadDto->book_id, $bookReadDto->user_id, $start_page, $end_page);
     }
@@ -83,7 +98,7 @@ class StoreBookReadIntervalService
 
     /** 
      *      Delete overlapping intervals.
-    **/
+     **/
     private function delete_overlapping_intervals(): void
     {
         $this->overlapping_query()->delete();
@@ -92,7 +107,7 @@ class StoreBookReadIntervalService
 
     /** 
      *      Insert new interval.
-    **/
+     **/
     private function insert_new_interval(BookReadDto $final_interval): void
     {
         BookRead::insert([
@@ -107,7 +122,7 @@ class StoreBookReadIntervalService
 
     /** 
      *    update book total read pages.
-    **/
+     **/
     private function update_book_total_read_pages(BookReadDto $final_interval, int $overlappingIntervalsPagesCount = 0): void
     {
         $book = Book::find($final_interval->book_id);

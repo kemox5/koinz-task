@@ -1,9 +1,5 @@
 <?php
 
-use App\Http\Controllers\Api\BookController;
-use App\Http\Controllers\Api\BookReadController;
-use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,6 +10,3 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
-Route::get('/books/top', [BookController::class, 'list_recommended_books'])->name('recommended_books.list');
-Route::post('/book_read/new', [BookReadController::class, 'store'])->name('book_read.store');

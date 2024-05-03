@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Exceptions\Api;
+namespace App\Exceptions;
 
-use App\Http\Controllers\Api\ApiBaseController;
+use App\Http\Controllers\ApiBaseController;
 use Exception;
 use Illuminate\Contracts\Validation\Validator;
 

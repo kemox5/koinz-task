@@ -1,15 +1,18 @@
 <?php
 
-namespace Database\Factories;
+namespace Modules\BooksModule\Database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\DB;
+use Modules\BooksModule\Models\BookRead;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\BookRead>
  */
 class BookReadFactory extends Factory
 {
+    protected $model = BookRead::class;
+
     /**
      * Define the model's default state.
      *

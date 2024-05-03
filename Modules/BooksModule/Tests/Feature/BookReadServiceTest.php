@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Unit;
+namespace Modules\BooksModule\Tests\Feature;
 
-use App\Models\Book;
-use App\Models\BookRead;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Modules\BooksModule\Models\Book;
+use Modules\BooksModule\Models\BookRead;
 use Tests\TestCase;
 
 class BookReadServiceTest extends TestCase

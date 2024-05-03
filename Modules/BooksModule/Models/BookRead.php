@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace Modules\BooksModule\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Modules\BooksModule\Database\factories\BookFactory;
 
 class BookRead extends Model
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Dtos;
+namespace Modules\BooksModule\Dtos;
 
-use Illuminate\Http\Request;
+use App\Http\Dtos\Dto;
 
 class BookReadDto extends Dto
 {

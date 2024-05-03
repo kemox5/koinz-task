@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Requests\Api;
+namespace Modules\BooksModule\Requests;
 
+use App\Http\Requests\ApiBaseRequest;
 
 class BookReadStoreRequest extends ApiBaseRequest
 {
