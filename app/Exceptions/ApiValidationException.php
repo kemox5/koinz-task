@@ -30,5 +30,8 @@ class ApiValidationException extends Exception
         return (new ApiBaseController)->error('Validation errors', $this->validator->errors()->getMessages(), 422);
     }
 
+    
+    public function report(){
 
+    }
 }

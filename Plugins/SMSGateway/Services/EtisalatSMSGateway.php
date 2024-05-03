@@ -5,7 +5,7 @@ namespace Plugins\SMSGateway\Services;
 use Illuminate\Support\Facades\Log;
 use Plugins\SMSGateway\SmsGatewayInterface;
 
-class EtislateSMSGateway implements SmsGatewayInterface
+class EtisalatSMSGateway implements SmsGatewayInterface
 {
     public function send(string $phone, string $message): bool
     {
@@ -21,7 +21,7 @@ class EtislateSMSGateway implements SmsGatewayInterface
         ]);
 
         if($response->getStatusCode() == 200){
-            Log::info('EtislateSMSGateway: SMS sent to '. $phone. ' with message '. $message);
+            Log::info('EtisalatSMSGateway: SMS sent to '. $phone. ' with message '. $message);
             return true;
         }
 

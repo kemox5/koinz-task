@@ -3,7 +3,7 @@
 namespace Plugins\SMSGateway;
 
 use Illuminate\Support\Facades\Log;
-use Plugins\SMSGateway\Services\EtislateSMSGateway;
+use Plugins\SMSGateway\Services\EtisalatSMSGateway;
 use Plugins\SMSGateway\Services\VodafoneSMSGateway;
 
 class SMSGatewayFactory implements SMSGatewayInterface
@@ -41,8 +41,8 @@ class SMSGatewayFactory implements SMSGatewayInterface
             case 'vodafone':
                 return new VodafoneSMSGateway();
                 break;
-            case 'etislate':
-                return new EtislateSMSGateway();
+            case 'etisalat':
+                return new EtisalatSMSGateway();
                 break;
         }
 

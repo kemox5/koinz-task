@@ -7,6 +7,8 @@ use App\Models\User;
 use Closure;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 use Modules\BooksModule\Models\Book;
 use Modules\BooksModule\Models\BookRead;
 use Tests\TestCase;
@@ -17,10 +19,18 @@ class StoreNewIntervalTest extends TestCase
     use RefreshDatabase;
     private $new_book_read_api = 'api/book_read/new', $list_recommended_books = '';
 
-    public function test_single_new_interval()
+    public function createUserandBook()
     {
         Book::factory(1)->create();
-        User::factory(1)->create();
+        User::factory(1)->create([
+            'phone_number' => '11111'
+        ]);
+    }
+
+
+    public function test_single_new_interval()
+    {
+        $this->createUserandBook();
 
         $response = $this->post($this->new_book_read_api, [
             'book_id' => 1, 'user_id' => 1, 'start_page' => 1, 'end_page' => 10,
@@ -32,10 +42,53 @@ class StoreNewIntervalTest extends TestCase
         $this->assertEquals(10, Book::find(1)->num_of_read_pages);
     }
 
+    public function test_vodafone_sms()
+    {
+        Config::set('smsgateway.provider', 'vodafone');
+
+        Log::shouldReceive('info')->once()->with('VodafoneSMSGateway: SMS sent to 11111 with message Thank you for your submition!');
+
+        $this->createUserandBook();
+
+        $response = $this->post($this->new_book_read_api, [
+            'book_id' => 1, 'user_id' => 1, 'start_page' => 1, 'end_page' => 10,
+        ]);
+        $response->assertStatus(200);
+    }
+
+    public function test_no_sms_config()
+    {
+        Config::set('smsgateway.provider', null);
+
+        Log::shouldReceive('error')->once()->with('No gateway configuration found!');
+
+        $this->createUserandBook();
+
+        $response = $this->post($this->new_book_read_api, [
+            'book_id' => 1, 'user_id' => 1, 'start_page' => 1, 'end_page' => 10,
+        ]);
+        $response->assertStatus(200);
+    }
+
+    public function test_etislate_sms()
+    {
+        Config::set('smsgateway.provider', 'etisalat');
+
+        Log::shouldReceive('info')->once()->with('EtisalatSMSGateway: SMS sent to 11111 with message Thank you for your submition!');
+
+        $this->createUserandBook();
+
+        $response = $this->post($this->new_book_read_api, [
+            'book_id' => 1, 'user_id' => 1, 'start_page' => 1, 'end_page' => 10,
+        ]);
+        $response->assertStatus(200);
+    }
+
+   
+
     public function test_two_intervals_with_overlapping_1()
     {
-        Book::factory(1)->create();
-        User::factory(1)->create();
+        $this->createUserandBook();
 
         $response = $this->post($this->new_book_read_api, [
             'book_id' => 1,
@@ -64,8 +117,7 @@ class StoreNewIntervalTest extends TestCase
 
     public function test_two_intervals_with_overlapping_2()
     {
-        Book::factory(1)->create();
-        User::factory(1)->create();
+        $this->createUserandBook();
 
         $response = $this->post($this->new_book_read_api, [
             'book_id' => 1,
@@ -94,8 +146,7 @@ class StoreNewIntervalTest extends TestCase
 
     public function test_three_intervals_with_overlapping_1()
     {
-        Book::factory(1)->create();
-        User::factory(1)->create();
+        $this->createUserandBook();
 
         $response = $this->post($this->new_book_read_api, [
             'book_id' => 1, 'user_id' => 1,  'start_page' => 1, 'end_page' => 10,
@@ -120,8 +171,7 @@ class StoreNewIntervalTest extends TestCase
 
     public function test_three_intervals_with_overlapping_2()
     {
-        Book::factory(1)->create();
-        User::factory(1)->create();
+        $this->createUserandBook();
 
         $response = $this->post($this->new_book_read_api, [
             'book_id' => 1, 'user_id' => 1,  'start_page' => 5, 'end_page' => 10,
@@ -146,8 +196,7 @@ class StoreNewIntervalTest extends TestCase
 
     public function test_three_intervals_with_overlapping_3()
     {
-        Book::factory(1)->create();
-        User::factory(1)->create();
+        $this->createUserandBook();
 
         $response = $this->post($this->new_book_read_api, [
             'book_id' => 1, 'user_id' => 1,  'start_page' => 5, 'end_page' => 10,
@@ -172,8 +221,7 @@ class StoreNewIntervalTest extends TestCase
 
     public function test_multiple_intervals_without_overlapping()
     {
-        Book::factory(1)->create();
-        User::factory(1)->create();
+        $this->createUserandBook();
 
         $response = $this->post($this->new_book_read_api, [
             'book_id' => 1, 'user_id' => 1,  'start_page' => 1, 'end_page' => 10,
@@ -200,8 +248,7 @@ class StoreNewIntervalTest extends TestCase
 
     public function test_multiple_intervals_some_with_overlapping_some_without()
     {
-        Book::factory(1)->create();
-        User::factory(1)->create();
+        $this->createUserandBook();
 
         $response = $this->post($this->new_book_read_api, [
             'book_id' => 1, 'user_id' => 1,  'start_page' => 1, 'end_page' => 11,
@@ -228,9 +275,8 @@ class StoreNewIntervalTest extends TestCase
 
     public function test_with_invalid_pages()
     {
-        $this->disableExceptionHandling();
-        Book::factory(1)->create();
-        User::factory(1)->create();
+
+        $this->createUserandBook();
 
         $response = $this->post($this->new_book_read_api, [
             'book_id' => 1,
@@ -244,7 +290,7 @@ class StoreNewIntervalTest extends TestCase
 
     public function test_with_non_existent_book()
     {
-        $this->disableExceptionHandling();
+
         User::factory(1)->create();
 
         $response = $this->post($this->new_book_read_api, [
@@ -260,7 +306,7 @@ class StoreNewIntervalTest extends TestCase
 
     public function test_empty_request()
     {
-        $this->disableExceptionHandling();
+
         $response = $this->post($this->new_book_read_api, []);
         $response->assertStatus(422);
         $response->assertJsonStructure(["errors" => ["book_id", "user_id", "start_page", "end_page"], "success"]);
@@ -268,7 +314,7 @@ class StoreNewIntervalTest extends TestCase
 
     public function test_invalid_types_request()
     {
-        $this->disableExceptionHandling();
+
         $response = $this->post($this->new_book_read_api, [
             'book_id' => 'x',
             'user_id' => 'x',
@@ -282,7 +328,7 @@ class StoreNewIntervalTest extends TestCase
 
     public function test_with_non_existent_user()
     {
-        $this->disableExceptionHandling();
+
         Book::factory(1)->create();
 
         $response = $this->post($this->new_book_read_api, [
@@ -294,18 +340,5 @@ class StoreNewIntervalTest extends TestCase
 
         $response->assertStatus(422);
         $response->assertJsonStructure(["errors" => ["user_id"], "success"]);
-    }
-
-    protected function disableExceptionHandling()
-    {
-        $this->app->instance(ExceptionHandler::class, new class extends Handler {
-            public function __construct() {}
-            public function report(Throwable $e) {}
-        });
-    }
-
-    protected function mock($abstract, ?Closure $mock = null)
-    {
-        $this->app->instance($abstract, $mock);
     }
 }
