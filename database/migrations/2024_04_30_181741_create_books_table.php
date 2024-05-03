@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedInteger('num_of_read_pages');
-            $table->timestamps();
+            // $table->timestamps();
 
             $table->index('num_of_read_pages');
         });

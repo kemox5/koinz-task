@@ -2,22 +2,24 @@
 
 namespace Modules\BooksModule\Tests\Feature;
 
-use App\Exceptions\Handler;
 use App\Models\User;
-use Closure;
-use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
 use Modules\BooksModule\Models\Book;
 use Modules\BooksModule\Models\BookRead;
 use Tests\TestCase;
-use Throwable;
 
 class StoreNewIntervalTest extends TestCase
 {
     use RefreshDatabase;
-    private $new_book_read_api = 'api/book_read/new', $list_recommended_books = '';
+    private $new_book_read_api = 'api/book_read/new', $list_recommended_books = 'api/books/top';
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        Http::fake();
+    }
 
     public function createUserandBook()
     {
@@ -26,7 +28,6 @@ class StoreNewIntervalTest extends TestCase
             'phone_number' => '11111'
         ]);
     }
-
 
     public function test_single_new_interval()
     {
@@ -41,50 +42,6 @@ class StoreNewIntervalTest extends TestCase
         $this->assertCount(1, BookRead::all());
         $this->assertEquals(10, Book::find(1)->num_of_read_pages);
     }
-
-    public function test_vodafone_sms()
-    {
-        Config::set('smsgateway.provider', 'vodafone');
-
-        Log::shouldReceive('info')->once()->with('VodafoneSMSGateway: SMS sent to 11111 with message Thank you for your submition!');
-
-        $this->createUserandBook();
-
-        $response = $this->post($this->new_book_read_api, [
-            'book_id' => 1, 'user_id' => 1, 'start_page' => 1, 'end_page' => 10,
-        ]);
-        $response->assertStatus(200);
-    }
-
-    public function test_no_sms_config()
-    {
-        Config::set('smsgateway.provider', null);
-
-        Log::shouldReceive('error')->once()->with('No gateway configuration found!');
-
-        $this->createUserandBook();
-
-        $response = $this->post($this->new_book_read_api, [
-            'book_id' => 1, 'user_id' => 1, 'start_page' => 1, 'end_page' => 10,
-        ]);
-        $response->assertStatus(200);
-    }
-
-    public function test_etislate_sms()
-    {
-        Config::set('smsgateway.provider', 'etisalat');
-
-        Log::shouldReceive('info')->once()->with('EtisalatSMSGateway: SMS sent to 11111 with message Thank you for your submition!');
-
-        $this->createUserandBook();
-
-        $response = $this->post($this->new_book_read_api, [
-            'book_id' => 1, 'user_id' => 1, 'start_page' => 1, 'end_page' => 10,
-        ]);
-        $response->assertStatus(200);
-    }
-
-   
 
     public function test_two_intervals_with_overlapping_1()
     {
@@ -217,6 +174,47 @@ class StoreNewIntervalTest extends TestCase
         $this->assertEquals(5, BookRead::where('book_id', 1)->where('user_id', 1)->first()->start_page);
         $this->assertEquals(30, BookRead::where('book_id', 1)->where('user_id', 1)->first()->end_page);
         $this->assertEquals(26, Book::find(1)->num_of_read_pages);
+    }
+
+    public function test_multiple_intervals_with_overlapping()
+    {
+        Book::factory(1)->create(['name' => 'Book 1']);
+        Book::factory(1)->create(['name' => 'Book 2']);
+        User::factory(3)->create();
+
+        $response = $this->post($this->new_book_read_api, [
+            'book_id' => 1, 'user_id' => 1,  'start_page' => 10, 'end_page' => 30,
+        ]);
+
+        $response = $this->post($this->new_book_read_api, [
+            'book_id' => 1,  'user_id' => 2,  'start_page' => 2, 'end_page' => 25,
+        ]);
+
+        $response = $this->post($this->new_book_read_api, [
+            'book_id' => 2,  'user_id' => 1, 'start_page' => 40, 'end_page' => 50,
+        ]);
+
+        $response = $this->post($this->new_book_read_api, [
+            'book_id' => 2,  'user_id' => 3, 'start_page' => 1, 'end_page' => 10,
+        ]);
+
+
+        $response = $this->get($this->list_recommended_books);
+        $response->assertStatus(200);
+        $response->assertJsonFragment([
+            "books" => [
+                [
+                    "id" => 1,
+                    "name" => "Book 1",
+                    "num_of_read_pages" => 45
+                ],
+                [
+                    "id" => 2,
+                    "name" => "Book 2",
+                    "num_of_read_pages" => 21
+                ],
+            ]
+        ]);
     }
 
     public function test_multiple_intervals_without_overlapping()

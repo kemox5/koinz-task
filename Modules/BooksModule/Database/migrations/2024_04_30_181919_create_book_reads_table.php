@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('end_page');
             $table->unsignedBigInteger('num_of_pages');
             
-            $table->timestamps();
+            // $table->timestamps();
 
             $table->index('user_id');
             $table->index('book_id');
