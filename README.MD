@@ -15,16 +15,16 @@ all the users that submitted their intervals in the first operation (sorted by b
 
 ## Requirements
 
-:white_check_mark: Feel free to use any programming language, framework, or DBMS.
-:white_check_mark: Use git and commit your changes often.
-:white_check_mark: Upload your project to your preferred version control system (Github, Gitlab, etc.) and email us the repository URL after you finish.
-:white_check_mark: Use seeders to populate the database with some users and books if needed.
-:white_check_mark: Be sure to follow good coding standards.
-:white_check_mark: Document how to run the project in the README file.
-:white_check_mark: [Plus] Write API docs.
-:white_check_mark: [Plus] Dockerize the app.
-:white_check_mark: [Plus] Write unit tests for your code.
-:white_check_mark: [Big Plus] Deploy your project to any free hosting platform
+- :white_check_mark: Feel free to use any programming language, framework, or DBMS.
+- :white_check_mark: Use git and commit your changes often.
+- :white_check_mark: Upload your project to your preferred version control system (Github, Gitlab, etc.) and email us the repository URL after you finish.
+- :white_check_mark: Use seeders to populate the database with some users and books if needed.
+- :white_check_mark: Be sure to follow good coding standards.
+- :white_check_mark: Document how to run the project in the README file.
+- :white_check_mark: [Plus] Write API docs.
+- :white_check_mark: [Plus] Dockerize the app.
+- :white_check_mark: [Plus] Write unit tests for your code.
+- :white_check_mark: [Big Plus] Deploy your project to any free hosting platform
 
 
 ## Demo
