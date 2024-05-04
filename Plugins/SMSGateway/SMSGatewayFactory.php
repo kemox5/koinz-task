@@ -3,8 +3,6 @@
 namespace Plugins\SMSGateway;
 
 use Illuminate\Support\Facades\Log;
-use Plugins\SMSGateway\Services\EtisalatSMSGateway;
-use Plugins\SMSGateway\Services\VodafoneSMSGateway;
 
 class SMSGatewayFactory implements SMSGatewayInterface
 {
@@ -17,16 +15,13 @@ class SMSGatewayFactory implements SMSGatewayInterface
             try {
 
                 return $gateway->send($phone, $message);
-
             } catch (\Exception $e) {
 
                 Log::error($e);
-                
             }
-        }else{
+        } else {
 
             Log::error('No gateway configuration found!');
-
         }
 
         return false;
@@ -35,15 +30,11 @@ class SMSGatewayFactory implements SMSGatewayInterface
 
     public function getGateway(): SMSGatewayInterface | null
     {
-        $gateway = config('smsgateway.provider');
+        $gateway = config('sms.provider');
+        $gateways_list = config('sms.providers_list');
 
-        switch ($gateway) {
-            case 'vodafone':
-                return new VodafoneSMSGateway();
-                break;
-            case 'etisalat':
-                return new EtisalatSMSGateway();
-                break;
+        if (isset($gateways_list[$gateway]) && class_exists($gateways_list[$gateway])) {
+            return new $gateways_list[$gateway];
         }
 
         return null;

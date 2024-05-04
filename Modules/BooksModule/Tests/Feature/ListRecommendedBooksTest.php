@@ -9,7 +9,7 @@ use Tests\TestCase;
 class ListRecommendedBooksTest extends TestCase
 {
     use RefreshDatabase;
-    private $list_recommended_books = 'api/books/top';
+    private $list_recommended_books = 'api/books/most-read';
 
     public function test_5_items()
     {

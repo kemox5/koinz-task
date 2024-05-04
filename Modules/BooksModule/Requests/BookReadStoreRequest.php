@@ -22,8 +22,8 @@ class BookReadStoreRequest extends ApiBaseRequest
         $rules = [
             'user_id' => ['required', 'exists:users,id', 'integer', 'min:1'],
             'book_id' => ['required', 'exists:books,id', 'integer', 'min:1'],
-            'start_page' => ['required', 'integer', 'min:1', 'bail'],
-            'end_page' => ['required', 'integer', 'min:' . (int) $this->get('start_page', '1')]
+            'start_page' => ['required', 'integer', 'min:1'],
+            'end_page' => ['required', 'integer', 'gte:start_page', 'min:1']
         ];
 
         return $rules;

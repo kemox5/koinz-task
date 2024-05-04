@@ -6,7 +6,6 @@ use App\Http\Controllers\ApiBaseController;
 use Modules\BooksModule\Dtos\BookReadDto;
 use Modules\BooksModule\Requests\BookReadStoreRequest;
 use Modules\BooksModule\Services\StoreBookReadIntervalService;
-use Plugins\SMSGateway\SMSGatewayInterface;
 
 class BookReadController extends ApiBaseController
 {

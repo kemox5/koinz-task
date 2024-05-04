@@ -12,7 +12,7 @@ use Tests\TestCase;
 class StoreNewIntervalTest extends TestCase
 {
     use RefreshDatabase;
-    private $new_book_read_api = 'api/book_read/new', $list_recommended_books = 'api/books/top';
+    private $new_book_read_api = 'api/books/submit-read', $list_recommended_books = 'api/books/most-read';
 
     public function setUp(): void
     {

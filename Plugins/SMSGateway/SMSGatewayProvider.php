@@ -11,7 +11,7 @@ class SMSGatewayProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->publishes([__DIR__ . '/config/smsgateway.php' => config_path('smsgateway.php')], 'configs');
+        $this->publishes([__DIR__ . '/config/sms.php' => config_path('sms.php')], 'configs');
 
         $this->app->bind(SMSGatewayInterface::class, SMSGatewayFactory::class);
     }

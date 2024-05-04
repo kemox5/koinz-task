@@ -4,9 +4,9 @@ namespace Plugins\SMSGateway\Services;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Plugins\SMSGateway\SmsGatewayInterface;
+use Plugins\SMSGateway\SMSGatewayInterface;
 
-class EtisalatSMSGateway implements SmsGatewayInterface
+class EtisalatSMSGateway implements SMSGatewayInterface
 {
     public function send(string $phone, string $message): bool
     {

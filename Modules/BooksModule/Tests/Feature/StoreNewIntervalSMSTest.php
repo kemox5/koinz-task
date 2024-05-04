@@ -12,7 +12,7 @@ use Tests\TestCase;
 class StoreNewIntervalSMSTest extends TestCase
 {
     use RefreshDatabase;
-    private $new_book_read_api = 'api/book_read/new', $list_recommended_books = 'api/books/top';
+    private $new_book_read_api = 'api/books/submit-read';
 
     public function setUp(): void
     {
@@ -29,7 +29,7 @@ class StoreNewIntervalSMSTest extends TestCase
 
     public function test_vodafone_sms()
     {
-        Config::set('smsgateway.provider', 'vodafone');
+        Config::set('sms.provider', 'vodafone');
 
         Log::shouldReceive('info')->once()->with('VodafoneSMSGateway: SMS sent to 11111 with message Thank you for your submition!');
 
@@ -43,7 +43,7 @@ class StoreNewIntervalSMSTest extends TestCase
 
     public function test_no_sms_config()
     {
-        Config::set('smsgateway.provider', null);
+        Config::set('sms.provider', null);
 
         Log::shouldReceive('error')->once()->with('No gateway configuration found!');
 
@@ -57,7 +57,7 @@ class StoreNewIntervalSMSTest extends TestCase
 
     public function test_etislate_sms()
     {
-        Config::set('smsgateway.provider', 'etisalat');
+        Config::set('sms.provider', 'etisalat');
 
         Log::shouldReceive('info')->once()->with('EtisalatSMSGateway: SMS sent to 11111 with message Thank you for your submition!');
 
