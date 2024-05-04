@@ -30,21 +30,23 @@ services:
     mysql:
         image: 'mysql:latest'
         environment:
-            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD-password}'
             MYSQL_ROOT_HOST: "%"
-            MYSQL_DATABASE: '${DB_DATABASE}'
-            MYSQL_USER: '${DB_USERNAME}'
-            MYSQL_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_DATABASE: '${DB_DATABASE-laravel}'
+            MYSQL_USER: '${DB_USERNAME-laravel}'
+            MYSQL_PASSWORD: '${DB_PASSWORD-password}'
             MYSQL_ALLOW_EMPTY_PASSWORD: 1
         volumes:
             - 'goodreads-mysql:/var/lib/mysql'
         networks:
             - goodreads
         healthcheck:
-            test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
+            test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD-password}"]
             retries: 3
             timeout: 5s
         command: --skip-host-cache --skip-name-resolve
+
+        
       
     # phpmyadmin:
     #     image: phpmyadmin/phpmyadmin
