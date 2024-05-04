@@ -11,7 +11,11 @@ use Plugins\SMSGateway\SMSGatewayInterface;
 class BookReadController extends ApiBaseController
 {
     /**
+     * Insert a new interval
+     * 
      * Insert a new interval for book reading.
+     * 
+     * @response array{success: boolean, message: string}
      */
     public function store(BookReadStoreRequest $request, StoreBookReadIntervalService $storeService)
     {
