@@ -21,7 +21,9 @@ class StoreNewIntervalSMSTest extends TestCase
 
     public function createUserandBook()
     {
-        Book::factory(1)->create();
+        Book::factory(1)->create([
+            'num_of_pages' => 200
+        ]);
         User::factory(1)->create([
             'phone_number' => '11111'
         ]);
@@ -68,5 +70,4 @@ class StoreNewIntervalSMSTest extends TestCase
         ]);
         $response->assertStatus(200);
     }
-
 }

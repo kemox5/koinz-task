@@ -13,11 +13,11 @@ class ListRecommendedBooksTest extends TestCase
 
     public function test_5_items()
     {
-        Book::factory(1)->create(['name' => 'Book 1', 'num_of_read_pages' => 10]);
-        Book::factory(1)->create(['name' => 'Book 2', 'num_of_read_pages' => 100]);
-        Book::factory(1)->create(['name' => 'Book 3', 'num_of_read_pages' => 60]);
-        Book::factory(1)->create(['name' => 'Book 4', 'num_of_read_pages' => 20]);
-        Book::factory(1)->create(['name' => 'Book 5', 'num_of_read_pages' => 30]);
+        Book::factory(1)->create(['name' => 'Book 1', 'num_of_pages' => 200, 'num_of_read_pages' => 10]);
+        Book::factory(1)->create(['name' => 'Book 2', 'num_of_pages' => 200, 'num_of_read_pages' => 100]);
+        Book::factory(1)->create(['name' => 'Book 3', 'num_of_pages' => 200, 'num_of_read_pages' => 60]);
+        Book::factory(1)->create(['name' => 'Book 4', 'num_of_pages' => 200, 'num_of_read_pages' => 20]);
+        Book::factory(1)->create(['name' => 'Book 5', 'num_of_pages' => 200, 'num_of_read_pages' => 30]);
 
         $response = $this->get($this->list_recommended_books);
 
@@ -55,12 +55,12 @@ class ListRecommendedBooksTest extends TestCase
 
     public function test_more_than_5_items()
     {
-        Book::factory(1)->create(['name' => 'Book 1', 'num_of_read_pages' => 10]);
-        Book::factory(1)->create(['name' => 'Book 2', 'num_of_read_pages' => 100]);
-        Book::factory(1)->create(['name' => 'Book 3', 'num_of_read_pages' => 60]);
-        Book::factory(1)->create(['name' => 'Book 4', 'num_of_read_pages' => 20]);
-        Book::factory(1)->create(['name' => 'Book 5', 'num_of_read_pages' => 30]);
-        Book::factory(1)->create(['name' => 'Book 6', 'num_of_read_pages' => 200]);
+        Book::factory(1)->create(['name' => 'Book 1', 'num_of_pages' => 200, 'num_of_read_pages' => 10]);
+        Book::factory(1)->create(['name' => 'Book 2', 'num_of_pages' => 200, 'num_of_read_pages' => 100]);
+        Book::factory(1)->create(['name' => 'Book 3', 'num_of_pages' => 200, 'num_of_read_pages' => 60]);
+        Book::factory(1)->create(['name' => 'Book 4', 'num_of_pages' => 200, 'num_of_read_pages' => 20]);
+        Book::factory(1)->create(['name' => 'Book 5', 'num_of_pages' => 200, 'num_of_read_pages' => 30]);
+        Book::factory(1)->create(['name' => 'Book 6', 'num_of_pages' => 200, 'num_of_read_pages' => 200]);
 
         $response = $this->get($this->list_recommended_books);
 
@@ -98,9 +98,9 @@ class ListRecommendedBooksTest extends TestCase
 
     public function test_less_than_5_items()
     {
-        Book::factory(1)->create(['name' => 'Book 1', 'num_of_read_pages' => 10]);
-        Book::factory(1)->create(['name' => 'Book 2', 'num_of_read_pages' => 100]);
-        Book::factory(1)->create(['name' => 'Book 3', 'num_of_read_pages' => 60]);
+        Book::factory(1)->create(['name' => 'Book 1', 'num_of_pages' => 200, 'num_of_read_pages' => 10]);
+        Book::factory(1)->create(['name' => 'Book 2', 'num_of_pages' => 200, 'num_of_read_pages' => 100]);
+        Book::factory(1)->create(['name' => 'Book 3', 'num_of_pages' => 200, 'num_of_read_pages' => 60]);
         $response = $this->get($this->list_recommended_books);
 
         $response->assertStatus(200)

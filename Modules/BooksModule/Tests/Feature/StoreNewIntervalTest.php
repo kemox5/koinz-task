@@ -23,10 +23,8 @@ class StoreNewIntervalTest extends TestCase
 
     public function createUserandBook()
     {
-        Book::factory(1)->create();
-        User::factory(1)->create([
-            'phone_number' => '11111'
-        ]);
+        Book::factory(1)->create(['num_of_pages' => 200]);
+        User::factory(1)->create(['phone_number' => '11111']);
     }
 
     public function test_single_new_interval()
