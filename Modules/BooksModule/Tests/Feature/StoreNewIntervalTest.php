@@ -204,13 +204,13 @@ class StoreNewIntervalTest extends TestCase
         $response->assertJsonFragment([
             "books" => [
                 [
-                    "id" => 1,
-                    "name" => "Book 1",
+                    "book_id" => 1,
+                    "book_name" => "Book 1",
                     "num_of_read_pages" => 45
                 ],
                 [
-                    "id" => 2,
-                    "name" => "Book 2",
+                    "book_id" => 2,
+                    "book_name" => "Book 2",
                     "num_of_read_pages" => 21
                 ],
             ]

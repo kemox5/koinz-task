@@ -8,7 +8,7 @@ use Modules\BooksModule\Models\Book;
 
 class BookRepository implements BookRepositoryInterface
 {
-    public function getById(int $id): Book
+    public function getById(int $id): ?Book
     {
         return Book::find($id);
     }

@@ -25,28 +25,28 @@ class ListRecommendedBooksTest extends TestCase
             ->assertJsonFragment([
                 "books" => [
                     [
-                        "id" => 2,
-                        "name" => "Book 2",
+                        "book_id" => 2,
+                        "book_name" => "Book 2",
                         "num_of_read_pages" => 100
                     ],
                     [
-                        "id" => 3,
-                        "name" => "Book 3",
+                        "book_id" => 3,
+                        "book_name" => "Book 3",
                         "num_of_read_pages" => 60
                     ],
                     [
-                        "id" => 5,
-                        "name" => "Book 5",
+                        "book_id" => 5,
+                        "book_name" => "Book 5",
                         "num_of_read_pages" => 30
                     ],
                     [
-                        "id" => 4,
-                        "name" => "Book 4",
+                        "book_id" => 4,
+                        "book_name" => "Book 4",
                         "num_of_read_pages" => 20
                     ],
                     [
-                        "id" => 1,
-                        "name" => "Book 1",
+                        "book_id" => 1,
+                        "book_name" => "Book 1",
                         "num_of_read_pages" => 10
                     ],
                 ]
@@ -68,28 +68,28 @@ class ListRecommendedBooksTest extends TestCase
             ->assertJsonFragment([
                 "books" => [
                     [
-                        "id" => 6,
-                        "name" => "Book 6",
+                        "book_id" => 6,
+                        "book_name" => "Book 6",
                         "num_of_read_pages" => 200
                     ],
                     [
-                        "id" => 2,
-                        "name" => "Book 2",
+                        "book_id" => 2,
+                        "book_name" => "Book 2",
                         "num_of_read_pages" => 100
                     ],
                     [
-                        "id" => 3,
-                        "name" => "Book 3",
+                        "book_id" => 3,
+                        "book_name" => "Book 3",
                         "num_of_read_pages" => 60
                     ],
                     [
-                        "id" => 5,
-                        "name" => "Book 5",
+                        "book_id" => 5,
+                        "book_name" => "Book 5",
                         "num_of_read_pages" => 30
                     ],
                     [
-                        "id" => 4,
-                        "name" => "Book 4",
+                        "book_id" => 4,
+                        "book_name" => "Book 4",
                         "num_of_read_pages" => 20
                     ]
                 ]
@@ -107,18 +107,18 @@ class ListRecommendedBooksTest extends TestCase
             ->assertJsonFragment([
                 "books" => [
                     [
-                        "id" => 2,
-                        "name" => "Book 2",
+                        "book_id" => 2,
+                        "book_name" => "Book 2",
                         "num_of_read_pages" => 100
                     ],
                     [
-                        "id" => 3,
-                        "name" => "Book 3",
+                        "book_id" => 3,
+                        "book_name" => "Book 3",
                         "num_of_read_pages" => 60
                     ],
                     [
-                        "id" => 1,
-                        "name" => "Book 1",
+                        "book_id" => 1,
+                        "book_name" => "Book 1",
                         "num_of_read_pages" => 10
                     ]
                 ]

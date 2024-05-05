@@ -23,6 +23,7 @@ class BookFactory extends Factory
     {
         return [
             'name' => fake()->name(),
+            'num_of_pages' => rand(50, 300),
             'num_of_read_pages' => 0
         ];
     }

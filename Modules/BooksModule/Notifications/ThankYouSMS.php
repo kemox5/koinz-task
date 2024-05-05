@@ -16,6 +16,9 @@ class ThankYouSMS
     public function send($user_id)
     {
         $user = $this->userRepository->getById($user_id);
-        SendSMS::dispatch(new SMSDto($user->phone_number, 'Thank you for your submition!'));
+
+        
+
+        SendSMS::dispatch(new SMSDto($user, 'Thank you for your submition!'));
     }
 }
