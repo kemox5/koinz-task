@@ -27,8 +27,8 @@ all the users that submitted their intervals in the first operation (sorted by b
 - :white_check_mark: [Big Plus] Deploy your project to any free hosting platform
 
 
-## Demo
-
+## Live Demo
+- Please visit http://207.127.99.184/docs/api
 
 
 ## Installation
@@ -36,7 +36,7 @@ all the users that submitted their intervals in the first operation (sorted by b
 ```bash
 - git clone git@github.com:kemox5/koinz-task.git
 - cd koinz-task
-- cp .env.example .env #update db configs
+- cp .env.example .env #update db password
 - docker compose up -d
 - sudo chmod -R 777 storage bootstrap
 - docker exec koinz-app bash ./setup.bash

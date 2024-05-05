@@ -28,8 +28,7 @@ class StoreBookReadIntervalService
      * 
      *  Check if new interval overlaps with existing intervals:
      *      1- Merge overlapping intervals with our new interval.
-     *      2- Update new interval start and end pages.
-     *      3- Delete old intervals.
+     *      2- Delete old intervals.
      *      
      *  Then:   Insert new interval.
      *  Finally:  Update the book's read pages total and send thank you sms.
@@ -49,7 +48,7 @@ class StoreBookReadIntervalService
 
             if ($overlappingIntervals->isNotEmpty()) {
 
-                // There is overlapping intervals.
+                // There are overlapping intervals.
                 $newInterval = $this->merge_overlapping_intervals($overlappingIntervals, $newInterval);
                 $increment -= $overlappingIntervals->sum('num_of_pages');
             }

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('books', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->unsignedInteger('num_of_read_pages');
+            $table->unsignedBigInteger('num_of_read_pages');
             // $table->timestamps();
 
             $table->index('num_of_read_pages');

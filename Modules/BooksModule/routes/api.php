@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Modules\BooksModule\Controllers\BookController;
 use Modules\BooksModule\Controllers\BookReadController;
