@@ -2,7 +2,9 @@
 
 namespace Plugins\SMSGateway;
 
+use Plugins\SMSGateway\Dto\SMSDto;
+
 interface SMSGatewayInterface
 {
-    public function send(string $phone_number, string $message): bool;
+    public function send(SMSDto $smsDto): bool;
 }

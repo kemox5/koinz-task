@@ -3,18 +3,19 @@
 namespace Plugins\SMSGateway;
 
 use Illuminate\Support\Facades\Log;
+use Plugins\SMSGateway\Dto\SMSDto;
 
 class SMSGatewayFactory implements SMSGatewayInterface
 {
 
-    public function send(string $phone, string $message): bool
+    public function send(SMSDto $smsDto): bool
     {
         $gateway = $this->getGateway();
 
         if ($gateway) {
             try {
 
-                return $gateway->send($phone, $message);
+                return $gateway->send($smsDto);
             } catch (\Exception $e) {
 
                 Log::error($e);

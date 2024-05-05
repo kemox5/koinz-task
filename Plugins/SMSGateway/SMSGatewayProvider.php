@@ -2,7 +2,10 @@
 
 namespace Plugins\SMSGateway;
 
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use Plugins\SMSGateway\Events\SendSMS;
+use Plugins\SMSGateway\Listeners\SendSMSListener;
 
 class SMSGatewayProvider extends ServiceProvider
 {
@@ -21,6 +24,9 @@ class SMSGatewayProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Event::listen(
+            SendSMS::class,
+            SendSMSListener::class,
+        );
     }
 }

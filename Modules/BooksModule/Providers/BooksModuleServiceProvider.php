@@ -16,6 +16,7 @@ class BooksModuleServiceProvider extends ServiceProvider
 
         $this->app->register(BooksModuleRouteServiceProvider::class);
         $this->app->register(BooksModuleRepositoryServiceProvider::class);
+        $this->app->register(BooksModuleEventsServiceProvider::class);
     }
 
     /**

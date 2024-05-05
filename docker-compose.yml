@@ -6,6 +6,7 @@ services:
             context: .
             dockerfile: Dockerfile
         image: goodreads-app:latest
+        restart: unless-stopped
         container_name: koinz-app
         volumes:
             - './:/var/www'
@@ -13,9 +14,26 @@ services:
             - goodreads
         depends_on:
             - mysql
+            - redis
+
+
+    worker:
+        image: goodreads-app:latest
+        restart: unless-stopped
+        volumes:
+            - './:/var/www'
+        networks:
+            - goodreads
+        depends_on:
+            - app
+            - mysql
+            - redis
+        command: php artisan queue:work -vvv --tries=3
+
 
     nginx:
         image: nginx:1.25.5
+        restart: unless-stopped
         ports:
             - "80:80"
         volumes:
@@ -29,6 +47,7 @@ services:
 
     mysql:
         image: mysql:8.4.0
+        restart: unless-stopped
         environment:
             MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
             MYSQL_ROOT_HOST: "%"
@@ -41,7 +60,13 @@ services:
         networks:
             - goodreads
 
-        
+
+    redis:
+        image: redis:7.2.4
+        restart: unless-stopped
+        networks:
+            - goodreads
+
       
     # phpmyadmin:
     #     image: phpmyadmin/phpmyadmin
@@ -57,11 +82,6 @@ services:
     #         - goodreads
     #     depends_on:
     #         - mysql
-
-    # redis:
-    #     image: redis:latest
-    #     networks:
-    #         - goodreads
 
 networks:
     goodreads:
