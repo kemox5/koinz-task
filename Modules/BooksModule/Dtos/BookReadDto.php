@@ -2,7 +2,7 @@
 
 namespace Modules\BooksModule\Dtos;
 
-use App\Http\Dtos\Dto;
+use App\Dtos\Dto;
 
 class BookReadDto extends Dto
 {

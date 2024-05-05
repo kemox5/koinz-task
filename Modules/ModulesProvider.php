@@ -12,8 +12,7 @@ class ModulesProvider extends ServiceProvider
     public function register(): void
     {
         $modules = [
-            \Modules\BooksModule\Providers\BooksModuleAppServiceProvider::class,
-            \Modules\BooksModule\Providers\BooksModuleRouteServiceProvider::class
+            \Modules\BooksModule\Providers\BooksModuleServiceProvider::class
         ];
 
         foreach ($modules as $module) {

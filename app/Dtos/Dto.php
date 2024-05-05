@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Dtos;
+namespace App\Dtos;
 
 class Dto {
     public function toArray(){
