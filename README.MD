@@ -38,7 +38,6 @@ all the users that submitted their intervals in the first operation (sorted by b
 - cd koinz-task
 - cp .env.example .env #update db password
 - docker compose up -d
-- sudo chmod -R 777 storage bootstrap
 - docker exec koinz-app bash ./setup.bash
 ```
 
