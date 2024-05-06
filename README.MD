@@ -28,7 +28,7 @@ all the users that submitted their intervals in the first operation (sorted by b
 
 
 ## Live Demo
-- Please visit http://207.127.99.184/docs/api
+- Please visit http://195.35.25.51:8090/docs/api
 
 
 ## Installation
