@@ -3,16 +3,20 @@
 namespace Modules\BooksModule\Requests;
 
 use App\Http\Requests\ApiBaseRequest;
+use Modules\BooksModule\Database\factories\BookFactory;
 use Modules\BooksModule\Interfaces\Repositories\BookRepositoryInterface;
 use Modules\BooksModule\Models\Book;
+use Modules\BooksModule\Repositories\BookRepository;
 
 class BookReadStoreRequest extends ApiBaseRequest
 {
     private ?Book $book = null;
+    private BookRepositoryInterface $bookRepository;
 
-    public function __construct(private BookRepositoryInterface $bookRepository)
+    public function __construct()
     {
         parent::__construct();
+        $this->bookRepository = new BookRepository();
     }
 
     /**
